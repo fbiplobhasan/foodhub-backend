@@ -41,11 +41,10 @@ model User {
   reviews         Review[]
 }
 
-
 model ProviderProfile {
-  id          String   @id @default(uuid())
-  userId      String   @unique
-  user        User     @relation(fields: [userId], references: [id])
+  id          String  @id @default(uuid())
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id])
   storeName   String
   description String?
   address     String
@@ -59,19 +58,20 @@ model Category {
 }
 
 model Meal {
-  id          String   @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String
   description String
   price       Float
   image       String?
-  
-  categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
-  
-  providerId  String
-  provider    ProviderProfile @relation(fields: [providerId], references: [id])
-  
-  reviews     Review[]
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  providerId String
+  provider   ProviderProfile @relation(fields: [providerId], references: [id])
+
+  reviews   Review[]
+  createdAt DateTime @default(now()) // এটি থাকা ভালো
 }
 
 model Order {
@@ -81,21 +81,17 @@ model Order {
   totalAmount     Float
   deliveryAddress String
   status          OrderStatus @default(PLACED)
-  items           Json 
+  items           Json
   createdAt       DateTime    @default(now())
 }
-
 
 model Review {
   id         String   @id @default(uuid())
   rating     Int      @default(5)
   comment    String?
-  
   customerId String
   customer   User     @relation(fields: [customerId], references: [id])
-  
   mealId     String
   meal       Meal     @relation(fields: [mealId], references: [id])
-  
   createdAt  DateTime @default(now())
 }

@@ -61,7 +61,22 @@ const loginUser = async (payload: any) => {
   };
 };
 
+const getMyProfile = async (userId: string) => {
+  const result = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      createdAt: true,
+    },
+  });
+  return result;
+};
+
 export const AuthService = {
   registerUser,
   loginUser,
+  getMyProfile,
 };

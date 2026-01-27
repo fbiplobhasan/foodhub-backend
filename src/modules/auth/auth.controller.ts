@@ -36,19 +36,18 @@ const login = async (req: Request, res: Response) => {
 };
 
 const getProfile = async (req: Request, res: Response) => {
+//   console.log(req.user);
   try {
-    console.log("Authenticated User Data:", req.user);
+    const user = req.user as any;
+    const result = await AuthService.getMyProfile(user.userId);
 
     res.status(200).json({
       success: true,
       message: "Profile retrieved successfully",
-      data: req.user,
+      data: result,
     });
   } catch (error: any) {
-    res.status(400).json({
-      success: false,
-      message: "Could not fetch profile",
-    });
+    res.status(400).json({ success: false, message: "Something went wrong" });
   }
 };
 
