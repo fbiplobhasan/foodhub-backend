@@ -35,7 +35,25 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
+const getProfile = async (req: Request, res: Response) => {
+  try {
+    console.log("Authenticated User Data:", req.user);
+
+    res.status(200).json({
+      success: true,
+      message: "Profile retrieved successfully",
+      data: req.user,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: "Could not fetch profile",
+    });
+  }
+};
+
 export const AuthController = {
   register,
   login,
+  getProfile,
 };
