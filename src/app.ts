@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
+import { AuthRoutes } from "./modules/auth/auth.route";
 
 const app = express();
 
@@ -10,6 +11,8 @@ app.use(
   }),
 );
 app.use(express.json());
+
+app.use("/api/v1/auth", AuthRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello Food-hub");
