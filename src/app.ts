@@ -6,6 +6,8 @@ import { CategoryRoutes } from "./modules/category/category.route";
 import { ProfileRoutes } from "./modules/profile/profile.route";
 import { OrderRoutes } from "./modules/order/order.route";
 import { ReviewRoutes } from "./modules/review/review.route";
+import { ProviderRoutes } from "./modules/provider/provider.route";
+import globalErrorHandler from "./middleware/globarErrorHandler";
 
 const app = express();
 
@@ -23,9 +25,11 @@ app.use("/api/v1/profiles", ProfileRoutes);
 app.use("/api/v1/meals", MealRoutes);
 app.use("/api/v1/orders", OrderRoutes);
 app.use("/api/v1/reviews", ReviewRoutes);
+app.use("/api/v1/providers", ProviderRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello Food-hub");
 });
 
+app.use(globalErrorHandler);
 export default app;
