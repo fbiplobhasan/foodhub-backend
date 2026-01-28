@@ -29,8 +29,30 @@ const createMeal = async (payload: any, userId: string) => {
   return result;
 };
 
-const getAllMeals = async () => {
+const getAllMeals = async (query: any) => {
+  const { searchTerm, categoryId, minPrice, maxPrice } = query;
+
+  const whereConditions: any = {};
+
+  if (searchTerm) {
+    whereConditions.name = {
+      contains: searchTerm,
+      mode: "insensitive",
+    };
+  }
+
+  if (categoryId) {
+    whereConditions.categoryId = categoryId;
+  }
+
+  if (minPrice || maxPrice) {
+    whereConditions.price = {};
+    if (minPrice) whereConditions.price.gte = Number(minPrice);
+    if (maxPrice) whereConditions.price.lte = Number(maxPrice);
+  }
+
   return await prisma.meal.findMany({
+    where: whereConditions,
     include: {
       category: true,
       provider: true,

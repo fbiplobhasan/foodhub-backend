@@ -21,7 +21,7 @@ const createMeal = async (req: Request, res: Response) => {
 
 const getAllMeals = async (req: Request, res: Response) => {
   try {
-    const result = await MealService.getAllMeals();
+    const result = await MealService.getAllMeals(req.query);
     res.status(200).json({
       success: true,
       message: "Meals fetched successfully!",
