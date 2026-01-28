@@ -15,10 +15,12 @@ const createOrder = async (userId: string, payload: any) => {
   const result = await prisma.order.create({
     data: {
       customerId: userId,
-      totalAmount,
-      deliveryAddress,
+      totalAmount: totalAmount,
+      deliveryAddress: payload.deliveryAddress,
+      items: payload.items,
+      paymentMethod: "COD",
+      paymentStatus: "PENDING",
       status: "PLACED",
-      items: items,
     },
   });
 
@@ -52,16 +54,23 @@ const getProviderOrders = async (providerId: string) => {
   return providerOrders;
 };
 
-const updateOrderStatus = async (orderId: string, status: OrderStatus) => {
-  return await prisma.order.update({
+const updateOrderStatus = async (orderId: string, status: string) => {
+  const updateData: any = { status };
+
+  if (status === "DELIVERED") {
+    updateData.paymentStatus = "PAID";
+  }
+
+  const result = await prisma.order.update({
     where: { id: orderId },
-    data: { status }
+    data: updateData,
   });
-}
+  return result;
+};
 
 export const OrderService = {
   createOrder,
   getMyOrders,
   getProviderOrders,
-  updateOrderStatus
+  updateOrderStatus,
 };

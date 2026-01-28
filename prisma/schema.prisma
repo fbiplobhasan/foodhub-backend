@@ -27,15 +27,24 @@ enum OrderStatus {
   CANCELLED
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String
-  password  String
-  role      Role     @default(CUSTOMER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum PaymentMethod {
+  COD
+  ONLINE
+}
 
+enum PaymentStatus {
+  PENDING
+  PAID
+}
+
+model User {
+  id              String           @id @default(uuid())
+  email           String           @unique
+  name            String
+  password        String
+  role            Role             @default(CUSTOMER)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
   providerProfile ProviderProfile?
   orders          Order[]
   reviews         Review[]
@@ -58,20 +67,17 @@ model Category {
 }
 
 model Meal {
-  id          String  @id @default(uuid())
+  id          String          @id @default(uuid())
   name        String
   description String
   price       Float
   image       String?
-
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id])
-
-  providerId String
-  provider   ProviderProfile @relation(fields: [providerId], references: [id])
-
-  reviews   Review[]
-  createdAt DateTime @default(now()) // এটি থাকা ভালো
+  categoryId  String
+  category    Category        @relation(fields: [categoryId], references: [id])
+  providerId  String
+  provider    ProviderProfile @relation(fields: [providerId], references: [id])
+  reviews     Review[]
+  createdAt   DateTime        @default(now())
 }
 
 model Order {
@@ -81,8 +87,12 @@ model Order {
   totalAmount     Float
   deliveryAddress String
   status          OrderStatus @default(PLACED)
-  items           Json
-  createdAt       DateTime    @default(now())
+
+  paymentMethod PaymentMethod @default(COD)
+  paymentStatus PaymentStatus @default(PENDING)
+
+  items     Json
+  createdAt DateTime @default(now())
 }
 
 model Review {

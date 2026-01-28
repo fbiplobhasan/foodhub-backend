@@ -7,7 +7,11 @@ const getProviderStats = async (providerId: string) => {
   });
   const mealIds = meals.map((m) => m.id);
 
-  const allOrders = await prisma.order.findMany();
+  const allOrders = await prisma.order.findMany({
+    where: {
+      paymentStatus: "PAID",
+    },
+  });
   const providerOrders = allOrders.filter((order: any) => {
     const items = order.items as any[];
     return items.some((item) => mealIds.includes(item.mealId));
