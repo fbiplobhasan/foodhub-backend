@@ -8,6 +8,7 @@ import { OrderRoutes } from "./modules/order/order.route";
 import { ReviewRoutes } from "./modules/review/review.route";
 import { ProviderRoutes } from "./modules/provider/provider.route";
 import globalErrorHandler from "./middleware/globarErrorHandler";
+import { AdminRoutes } from "./modules/admin/admin-route";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/api/v1/meals", MealRoutes);
 app.use("/api/v1/orders", OrderRoutes);
 app.use("/api/v1/reviews", ReviewRoutes);
 app.use("/api/v1/providers", ProviderRoutes);
+app.use("/api/v1/admin", AdminRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello Food-hub");
