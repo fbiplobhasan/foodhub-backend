@@ -1,8 +1,7 @@
-import { OrderStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 
 const createOrder = async (userId: string, payload: any) => {
-  const { items, deliveryAddress } = payload;
+  const { items} = payload;
 
   let totalAmount = 0;
   for (const item of items) {
@@ -40,7 +39,7 @@ const getProviderOrders = async (providerId: string) => {
     select: { id: true },
   });
 
-  const mealIds = providerMeals.map((meal) => meal.id);
+  const mealIds = providerMeals.map((meal:any) => meal.id);
 
   const allOrders = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
