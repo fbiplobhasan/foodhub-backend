@@ -14,7 +14,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.APP_URL || "http://localhost:4000",
+    origin: process.env.APP_URL || "*",
     credentials: true,
   }),
 );

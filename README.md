@@ -38,3 +38,5 @@ FoodHub is a comprehensive backend solution for an online food delivery platform
    ```bash
    <git clone https://github.com/fbiplobhasan/foodhub-backend>
    cd food-hub-backend
+
+   Developed by Biplob Hasan - 2026
